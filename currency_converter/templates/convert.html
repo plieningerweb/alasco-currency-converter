@@ -1,0 +1,39 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <!-- <strong>Title</strong> --> {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <h2>Currency Converter</h2>
+    <form action="{{ url_for('currency_converter.convert') }}" method="post" class="form" role="form">
+      {% if csrf_token in form %}
+          {{ form.csrf_token() }}
+      {% endif %}
+     <d1>
+      {{ wtf.form_field(form.base_amount, class='form-control', placeholder='42.42') }}      
+      {{ wtf.form_field(form.base_currency, class='form-control') }}
+      {{ wtf.form_field(form.target_currency, class='form-control') }}      
+     </d1>     
+     <p><input type=submit class='btn btn-warning btn-block'>
+    </form>
+</div>
+
+{% if has_result %}
+<div class="container">
+    <h3>Converted Currency</h2>
+
+    {{form.base_amount.data}} {{form.base_currency.data}} = {{target_amount}} {{form.target_currency.data}}
+</div>
+{% endif %}
+
+{% endblock %}
