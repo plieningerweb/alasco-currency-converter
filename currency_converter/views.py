@@ -12,6 +12,7 @@ def convert():
     form = ConvertForm(request.form)    
     has_result = False
     target_amount = False
+    has_csrf_token = hasattr(form, 'csrf_token')
     if request.method == 'POST':
         if form.validate_on_submit():
             has_result = True
@@ -28,10 +29,11 @@ def convert():
                 #print('error')
                 flash('currency conversion API failed', 'warning')    
         else:
-            flash('form is not valid', 'warning')
+            flash('Form could not be validated. See below', 'warning')
                 
             
     return render_template('convert.html', 
                            form=form,
                            has_result=has_result,
-                           target_amount=target_amount)
+                           target_amount=target_amount,
+                           has_csrf_token=has_csrf_token)

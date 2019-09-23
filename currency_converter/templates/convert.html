@@ -16,13 +16,13 @@
 
     <h2>Currency Converter</h2>
     <form action="{{ url_for('currency_converter.convert') }}" method="post" class="form" role="form">
-      {% if csrf_token in form %}
+      {% if has_csrf_token %}
           {{ form.csrf_token() }}
       {% endif %}
      <d1>
       {{ wtf.form_field(form.base_amount, class='form-control', placeholder='42.42') }}      
       {{ wtf.form_field(form.base_currency, class='form-control') }}
-      {{ wtf.form_field(form.target_currency, class='form-control') }}      
+      {{ wtf.form_field(form.target_currency, class='form-control') }} 
      </d1>     
      <p><input type=submit class='btn btn-warning btn-block'>
     </form>
